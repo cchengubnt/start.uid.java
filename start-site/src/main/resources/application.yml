@@ -179,7 +179,7 @@ initializr:
         - compatibilityRange: "[1.5.0.RELEASE,2.0.0.M1)"
           version: 1.2.51
     platform:
-      compatibility-range: "2.3.0.RELEASE"
+      compatibility-range: "2.1.8.RELEASE"
       v1-format-compatibility-range: "[2.0.0.RELEASE,2.4.0-M1)"
       v2-format-compatibility-range: "2.4.0-M1"
     repositories:
@@ -191,6 +191,70 @@ initializr:
         url: https://oss.sonatype.org/content/repositories/snapshots/
         releasesEnabled: false
         snapshotsEnabled: true
+  types:
+    - name: Maven Project
+      id: maven-project
+      description: Generate a Maven based project archive.
+      tags:
+        build: maven
+        format: project
+      default: true
+      action: /starter.zip
+    - name: Maven POM
+      id: maven-build
+      description: Generate a Maven pom.xml.
+      tags:
+        build: maven
+        format: build
+      default: false
+      action: /pom.xml
+    - name: Gradle Project
+      id: gradle-project
+      description: Generate a Gradle based project archive.
+      tags:
+        build: gradle
+        format: project
+      default: false
+      action: /starter.zip
+    - name: Gradle Config
+      id: gradle-build
+      description: Generate a Gradle build file.
+      tags:
+        build: gradle
+        format: build
+      default: false
+      action: /build.gradle
+  packagings:
+    - name: Jar
+      id: jar
+      default: true
+    - name: War
+      id: war
+      default: false
+  javaVersions:
+    - id: 18
+      default: false
+    - id: 17
+      default: false
+    - id: 11
+      default: false
+    - id: 1.8
+      name: 8
+      default: true
+  languages:
+    - name: Java
+      id: java
+      default: true
+  #    - name: Kotlin
+  #      id: kotlin
+  #      default: false
+  #    - name: Groovy
+  #      id: groovy
+  #      default: false
+  bootVersions:
+    - name : 2.1.8
+      id: 2.1.8.RELEASE
+      default: true
   dependencies:
     - name: Developer Tools
       content:
@@ -1529,73 +1593,7 @@ initializr:
               href: https://googlecloudplatform.github.io/spring-cloud-gcp/reference/html/index.html#cloud-storage
             - rel: guide
               href: https://github.com/GoogleCloudPlatform/spring-cloud-gcp/tree/main/spring-cloud-gcp-samples/spring-cloud-gcp-storage-resource-sample
-  types:
-    - name: Maven Project
-      id: maven-project
-      description: Generate a Maven based project archive.
-      tags:
-        build: maven
-        format: project
-      default: true
-      action: /starter.zip
-    - name: Maven POM
-      id: maven-build
-      description: Generate a Maven pom.xml.
-      tags:
-        build: maven
-        format: build
-      default: false
-      action: /pom.xml
-    - name: Gradle Project
-      id: gradle-project
-      description: Generate a Gradle based project archive.
-      tags:
-        build: gradle
-        format: project
-      default: false
-      action: /starter.zip
-    - name: Gradle Config
-      id: gradle-build
-      description: Generate a Gradle build file.
-      tags:
-        build: gradle
-        format: build
-      default: false
-      action: /build.gradle
-  packagings:
-    - name: Jar
-      id: jar
-      default: true
-    - name: War
-      id: war
-      default: false
-  javaVersions:
-    - id: 18
-      default: false
-    - id: 17
-      default: true
-    - id: 11
-      default: false
-    - id: 1.8
-      name: 8
-      default: false
-  languages:
-    - name: Java
-      id: java
-      default: true
-    - name: Kotlin
-      id: kotlin
-      default: false
-    - name: Groovy
-      id: groovy
-      default: false
-  bootVersions:
-    - name : Latest SNAPSHOT
-      id: 2.2.0.BUILD-SNAPSHOT
-      default: false
-    - name : 2.1.1.
-      id: 2.1.1.RELEASE
-      default: true
+    -
 
 ---
 

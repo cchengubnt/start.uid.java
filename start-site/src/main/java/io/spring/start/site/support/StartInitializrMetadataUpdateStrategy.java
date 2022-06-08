@@ -22,6 +22,8 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.spring.initializr.generator.version.Version;
 import io.spring.initializr.metadata.DefaultMetadataElement;
+import io.spring.initializr.metadata.InitializrMetadata;
+import io.spring.initializr.metadata.SingleSelectCapability;
 import io.spring.initializr.web.support.InitializrMetadataUpdateStrategy;
 import io.spring.initializr.web.support.SaganInitializrMetadataUpdateStrategy;
 
@@ -40,6 +42,22 @@ public class StartInitializrMetadataUpdateStrategy extends SaganInitializrMetada
 	}
 
 	@Override
+	public InitializrMetadata update(InitializrMetadata current) {
+		SingleSelectCapability bootVersions1 = current.getBootVersions();
+		String url = current.getConfiguration().getEnv().getSpringBootMetadataUrl();
+		List<DefaultMetadataElement> bootVersions = fetchSpringBootVersions(url);
+		if (bootVersions != null && !bootVersions.isEmpty()) {
+			bootVersions.addAll(bootVersions1.getContent());
+			if (bootVersions.stream().noneMatch(DefaultMetadataElement::isDefault)) {
+				// No default specified
+				bootVersions.get(0).setDefault(true);
+			}
+			current.updateSpringBootVersions(bootVersions);
+		}
+		return current;
+	}
+
+	@Override
 	protected List<DefaultMetadataElement> fetchSpringBootVersions(String url) {
 		List<DefaultMetadataElement> versions = super.fetchSpringBootVersions(url);
 		return (versions != null) ? versions.stream().filter(this::isCompatibleVersion).collect(Collectors.toList())
@@ -48,7 +66,7 @@ public class StartInitializrMetadataUpdateStrategy extends SaganInitializrMetada
 
 	private boolean isCompatibleVersion(DefaultMetadataElement versionMetadata) {
 		Version version = Version.parse(versionMetadata.getId());
-		return (version.getMajor() == 2 && version.getMinor() > 5) || (version.getMajor() >= 3);
+		return (version.getMajor() == 2) || (version.getMajor() >= 3);
 	}
 
 }

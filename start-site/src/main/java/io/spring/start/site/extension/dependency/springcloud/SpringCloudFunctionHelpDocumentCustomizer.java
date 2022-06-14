@@ -129,7 +129,8 @@ class SpringCloudFunctionHelpDocumentCustomizer implements HelpDocumentCustomize
 	 */
 	enum CloudPlatform {
 
-		AZURE("Microsoft Azure", "azure-support", Collections.singletonList(MavenBuildSystem.ID));
+		AWS("AWS Lambda", "cloud-aws"), AZURE("Microsoft Azure", "azure-support",
+				Collections.singletonList(MavenBuildSystem.ID));
 
 		private final String name;
 
